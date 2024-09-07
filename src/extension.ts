@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
-let lastSpacePressTime = 0; // Variable to store the last time the space key was pressed
+let lastSpacePressTime = 0; // Timestamp of the last space key press
+let singleTapTimeout: NodeJS.Timeout | undefined; // Timeout identifier
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
@@ -9,7 +10,12 @@ export function activate(context: vscode.ExtensionContext) {
       const now = Date.now(); // Get the current time in milliseconds
       const timeSinceLastPress = now - lastSpacePressTime; // Calculate the time since the last space press
 
-      if (timeSinceLastPress < 300) { // If the time between presses is less than 300 ms
+      if (timeSinceLastPress < 300) {
+        // Double-tap detected within 300 ms
+        if (singleTapTimeout) {
+          clearTimeout(singleTapTimeout); // Clear the single-tap timeout to prevent inserting a space
+        }
+
         // Handle double-tap: move cursor to the end of the current word
         const editor = vscode.window.activeTextEditor;
         if (editor) {
@@ -21,12 +27,11 @@ export function activate(context: vscode.ExtensionContext) {
             return new vscode.Selection(newPosition, newPosition);
           });
         }
-
-        // Prevent the default action of inserting a space on double-tap
-        return vscode.commands.executeCommand('default:type', { text: '' });
       } else {
-        // Handle single tap: insert a space as usual
-        vscode.commands.executeCommand('default:type', { text: ' ' });
+        // Handle single-tap with a delay, allowing time to check for a potential double-tap
+        singleTapTimeout = setTimeout(() => {
+          vscode.commands.executeCommand('default:type', { text: ' ' }); // Insert space after timeout
+        }, 300); // Wait for 300 ms before confirming it's a single tap
       }
 
       // Update the last space press time
@@ -36,6 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 }
+
 
   
   // import * as vscode from 'vscode';
