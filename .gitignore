@@ -46,3 +46,6 @@ Thumbs.db
 **/tsconfig.json
 **/eslint.config.mjs
 **/.vscode-test.*
+
+# Ignore specific output files
+davidskeys-0.0.1.vsix
