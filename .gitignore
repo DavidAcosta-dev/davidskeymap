@@ -40,7 +40,6 @@ Thumbs.db
 *.map
 
 # Ignore all .ts files
-*.ts
 
 # Ignore specific config files
 **/tsconfig.json
