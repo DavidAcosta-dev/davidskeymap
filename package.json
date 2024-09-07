@@ -1,3 +1,4 @@
+```json
 {
   "name": "davidskeys",
   "displayName": "davidskeys",
@@ -13,18 +14,17 @@
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
-    {
-      "command": "extension.moveCursorToEndOfWord",
-      "title": "Move Cursor to End of Word"
-    }
-  ],
-  "keybindings": [
-    {
-      "command": "extension.moveCursorToEndOfWord",
-      "key": "space",
-      "when": "editorTextFocus"
-    }
-  
+      {
+        "command": "extension.moveCursorToEndOfWord",
+        "title": "Move Cursor to End of Word"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.moveCursorToEndOfWord",
+        "key": "space",
+        "when": "editorTextFocus"
+      }
     ]
   },
   "scripts": {
@@ -40,6 +40,10 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidAcosta-dev/davidskeymap.git"
   },
   "devDependencies": {
     "@types/vscode": "^1.93.0",
